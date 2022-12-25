@@ -1,6 +1,9 @@
 package com.devsuperior.bds04.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,5 +27,11 @@ public class CityService {
 		mapper.copyDTOToEntity(dto, entity);
 		entity = repository.save(entity);
 		return mapper.convertEntityToDTO(entity);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<CityDTO> findAll() {
+		List<City> list = repository.findAll(Sort.by("name"));
+		return mapper.convertEntityListToDTOList(list);
 	}
 }
